@@ -121,7 +121,7 @@ class RoboticDiffusionTransformerModel(object):
         print(f'Loading weights from {pretrained}')
         filename = os.path.basename(pretrained)
         if filename.endswith('.bin'):
-            checkpoint =  torch.load(pretrained)
+            checkpoint =  torch.load(pretrained, weights_only=True, map_location='cpu')
             self.policy.load_state_dict(checkpoint["module"])
         elif filename.endswith('.safetensors'):
             from safetensors.torch import load_model
