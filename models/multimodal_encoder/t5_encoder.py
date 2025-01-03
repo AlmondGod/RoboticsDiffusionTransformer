@@ -27,45 +27,46 @@ class T5Embedder:
             t5_model_kwargs = {
                 "low_cpu_mem_usage": True,
                 "torch_dtype": self.torch_dtype,
+                "device_map": "auto" 
             }
 
             if use_offload_folder is not None:
                 t5_model_kwargs["offload_folder"] = use_offload_folder
-                t5_model_kwargs["device_map"] = {
-                    "shared": self.device,
-                    "encoder.embed_tokens": self.device,
-                    "encoder.block.0": self.device,
-                    "encoder.block.1": self.device,
-                    "encoder.block.2": self.device,
-                    "encoder.block.3": self.device,
-                    "encoder.block.4": self.device,
-                    "encoder.block.5": self.device,
-                    "encoder.block.6": self.device,
-                    "encoder.block.7": self.device,
-                    "encoder.block.8": self.device,
-                    "encoder.block.9": self.device,
-                    "encoder.block.10": self.device,
-                    "encoder.block.11": self.device,
-                    "encoder.block.12": "disk",
-                    "encoder.block.13": "disk",
-                    "encoder.block.14": "disk",
-                    "encoder.block.15": "disk",
-                    "encoder.block.16": "disk",
-                    "encoder.block.17": "disk",
-                    "encoder.block.18": "disk",
-                    "encoder.block.19": "disk",
-                    "encoder.block.20": "disk",
-                    "encoder.block.21": "disk",
-                    "encoder.block.22": "disk",
-                    "encoder.block.23": "disk",
-                    "encoder.final_layer_norm": "disk",
-                    "encoder.dropout": "disk",
-                }
-            else:
-                t5_model_kwargs["device_map"] = {
-                    "shared": self.device,
-                    "encoder": self.device,
-                }
+            #     t5_model_kwargs["device_map"] = {
+            #         "shared": self.device,
+            #         "encoder.embed_tokens": self.device,
+            #         "encoder.block.0": self.device,
+            #         "encoder.block.1": self.device,
+            #         "encoder.block.2": self.device,
+            #         "encoder.block.3": self.device,
+            #         "encoder.block.4": self.device,
+            #         "encoder.block.5": self.device,
+            #         "encoder.block.6": self.device,
+            #         "encoder.block.7": self.device,
+            #         "encoder.block.8": self.device,
+            #         "encoder.block.9": self.device,
+            #         "encoder.block.10": self.device,
+            #         "encoder.block.11": self.device,
+            #         "encoder.block.12": "disk",
+            #         "encoder.block.13": "disk",
+            #         "encoder.block.14": "disk",
+            #         "encoder.block.15": "disk",
+            #         "encoder.block.16": "disk",
+            #         "encoder.block.17": "disk",
+            #         "encoder.block.18": "disk",
+            #         "encoder.block.19": "disk",
+            #         "encoder.block.20": "disk",
+            #         "encoder.block.21": "disk",
+            #         "encoder.block.22": "disk",
+            #         "encoder.block.23": "disk",
+            #         "encoder.final_layer_norm": "disk",
+            #         "encoder.dropout": "disk",
+            #     }
+            # else:
+            #     t5_model_kwargs["device_map"] = {
+            #         "shared": self.device,
+            #         "encoder": self.device,
+            #     }
 
         self.use_text_preprocessing = use_text_preprocessing
         self.hf_token = hf_token
@@ -82,8 +83,6 @@ class T5Embedder:
             cache_dir=cache_dir,
             local_files_only=local_files_only,
             **t5_model_kwargs,
-            device_map = 'auto',
-            low_cpu_mem_usage=True
         ).eval()
         self.model_max_length = model_max_length
 
