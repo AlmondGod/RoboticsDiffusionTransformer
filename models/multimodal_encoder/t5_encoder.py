@@ -82,6 +82,8 @@ class T5Embedder:
             cache_dir=cache_dir,
             local_files_only=local_files_only,
             **t5_model_kwargs,
+            device_map = 'auto',
+            low_cpu_mem_usage=True
         ).eval()
         self.model_max_length = model_max_length
 
